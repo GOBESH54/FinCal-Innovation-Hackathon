@@ -10,7 +10,6 @@
   padding: 24px 20px 48px;
   display: grid;
   gap: 20px;
-  overflow-x: clip;
 }
 
 /* ─── Theme Toggle ─── */
@@ -301,12 +300,13 @@
 }
 
 .tooltipContent {
+  display: none;
   position: absolute;
   left: 50%;
   bottom: calc(100% + 10px);
   transform: translateX(-50%) scale(0.95);
-  min-width: 220px;
-  max-width: 290px;
+  min-width: min(220px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
   background: var(--tooltip-bg);
@@ -326,6 +326,7 @@
 .tooltipTrigger:hover .tooltipContent,
 .tooltipTrigger:focus-visible .tooltipContent,
 .tooltipContentVisible {
+  display: block;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -1067,6 +1068,18 @@
     width: 38px;
     height: 38px;
     font-size: 17px;
+  }
+
+  .tooltipContent {
+    left: auto;
+    right: 0;
+    transform: scale(0.95);
+  }
+
+  .tooltipTrigger:hover .tooltipContent,
+  .tooltipTrigger:focus-visible .tooltipContent,
+  .tooltipContentVisible {
+    transform: scale(1);
   }
 }
 
