@@ -1,0 +1,18 @@
+node_modules/
+.next/
+
+# Build/cache artifacts
+*.tsbuildinfo
+
+# Local/generated review artifacts
+rules_extracted.txt
+69a4058ab2926_Fincal_HDFC.pdf
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
