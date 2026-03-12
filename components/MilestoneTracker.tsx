@@ -2,7 +2,6 @@ import { memo, useMemo } from "react";
 import { formatYearsMonths } from "../lib/formatters";
 import { calculateMilestones } from "../lib/sipMath";
 import type { MilestoneResult } from "../lib/sipMath";
-import styles from "../styles/calculator.module.css";
 
 interface MilestoneTrackerProps {
   monthlyInvestment: number;
@@ -23,14 +22,14 @@ function MilestoneTracker({
   const totalMonths = Math.round(years * 12);
 
   return (
-    <section className={styles.card} aria-labelledby="milestone-title">
-      <div className={styles.cardHeader}>
-        <h2 id="milestone-title" className={styles.cardTitle}>
+    <section className="app-card" aria-labelledby="milestone-title">
+      <div className="mb-4">
+        <h2 id="milestone-title" className="card-title">
           Milestone Tracker
         </h2>
       </div>
 
-      <div className={styles.milestoneGrid}>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {milestones.map((m) => {
           const progress = m.monthReached
             ? Math.min(100, (m.monthReached / totalMonths) * 100)
@@ -39,26 +38,26 @@ function MilestoneTracker({
           return (
             <article
               key={m.amount}
-              className={`${styles.milestoneCard} ${
+              className={`relative rounded-xl border p-4 text-center ${
                 m.reached
-                  ? styles.milestoneReached
-                  : styles.milestoneUnreached
+                  ? "border-emerald-200 bg-emerald-50 dark:border-emerald-500/40 dark:bg-emerald-900/30"
+                  : "border-slate-200 bg-slate-50 opacity-80 dark:border-slate-700 dark:bg-slate-800/80"
               }`}
             >
               {m.reached && (
-                <span className={styles.milestoneCheck} aria-hidden="true">
-                  ✓
+                <span className="absolute right-2 top-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white" aria-hidden="true">
+                  {"\u2713"}
                 </span>
               )}
-              <p className={styles.milestoneAmount}>{m.label}</p>
-              <p className={styles.milestoneTime}>
+              <p className="text-base font-extrabold text-slate-900 dark:text-slate-100">{m.label}</p>
+              <p className="mt-1 text-xs font-medium text-slate-600 md:text-sm dark:text-slate-300">
                 {m.reached && m.monthReached
                   ? `Reached in ${formatYearsMonths(m.monthReached)}`
                   : "Not reached in this plan"}
               </p>
               {m.reached && (
                 <div
-                  className={styles.milestoneProgress}
+                  className="mt-3 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700"
                   role="progressbar"
                   aria-valuenow={Math.round(progress)}
                   aria-valuemin={0}
@@ -66,7 +65,7 @@ function MilestoneTracker({
                   aria-label={`${m.label} reached at ${Math.round(progress)}% of investment duration`}
                 >
                   <div
-                    className={styles.milestoneProgressFill}
+                    className="h-full rounded-full bg-emerald-600"
                     style={{ width: `${progress}%` }}
                   />
                 </div>

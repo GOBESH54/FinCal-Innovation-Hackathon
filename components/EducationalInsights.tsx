@@ -7,7 +7,6 @@ import {
 } from "../lib/formatters";
 import { ruleOf72 } from "../lib/sipMath";
 import type { SipResult } from "../lib/sipMath";
-import styles from "../styles/calculator.module.css";
 
 interface EducationalInsightsProps {
   result: SipResult;
@@ -43,24 +42,22 @@ function EducationalInsights({
   );
 
   return (
-    <section
-      className={styles.card}
-      aria-labelledby="edu-insights-title"
-    >
-      <div className={styles.cardHeader}>
-        <h2 id="edu-insights-title" className={styles.cardTitle}>
+    <section className="app-card" aria-labelledby="edu-insights-title">
+      <div className="mb-4">
+        <h2 id="edu-insights-title" className="card-title">
           Learn While You Plan
         </h2>
       </div>
 
-      <div className={styles.insightsGrid}>
-        {/* Power of Compounding */}
-        <article className={styles.insightItem}>
-          <h3 className={styles.insightItemTitle}>Power of Compounding</h3>
-          <p className={styles.insightItemValue}>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <article className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/80">
+          <h3 className="text-sm font-semibold text-slate-700 md:text-base dark:text-slate-300">
+            Power of Compounding
+          </h3>
+          <p className="mt-2 text-xl font-extrabold text-brandBlue md:text-2xl">
             {formatCompactInrNumber(result.totalGains)}
           </p>
-          <p className={styles.insightItemDesc}>
+          <p className="mt-2 text-sm leading-6 text-slate-600 md:text-base dark:text-slate-300">
             Your illustrative returns alone are {compoundingPower.toFixed(0)}% of your
             invested amount. Compounding may earn you{" "}
             {formatCompactInrNumber(Math.max(0, compoundBonus))} more than
@@ -68,13 +65,14 @@ function EducationalInsights({
           </p>
         </article>
 
-        {/* Wealth Multiplier */}
-        <article className={styles.insightItem}>
-          <h3 className={styles.insightItemTitle}>Wealth Multiplier</h3>
-          <p className={styles.insightItemValue}>
+        <article className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/80">
+          <h3 className="text-sm font-semibold text-slate-700 md:text-base dark:text-slate-300">
+            Wealth Multiplier
+          </h3>
+          <p className="mt-2 text-xl font-extrabold text-brandBlue md:text-2xl">
             {formatMultiplier(result.wealthMultiplier)}
           </p>
-          <p className={styles.insightItemDesc}>
+          <p className="mt-2 text-sm leading-6 text-slate-600 md:text-base dark:text-slate-300">
             Every rupee you invest may become{" "}
             {formatMultiplier(result.wealthMultiplier)} over {years} years at the
             assumed return rate. The longer you stay invested, the higher this
@@ -82,26 +80,28 @@ function EducationalInsights({
           </p>
         </article>
 
-        {/* Rule of 72 */}
-        <article className={styles.insightItem}>
-          <h3 className={styles.insightItemTitle}>Rule of 72</h3>
-          <p className={styles.insightItemValue}>
+        <article className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/80">
+          <h3 className="text-sm font-semibold text-slate-700 md:text-base dark:text-slate-300">
+            Rule of 72
+          </h3>
+          <p className="mt-2 text-xl font-extrabold text-brandBlue md:text-2xl">
             ~{doublingYears.toFixed(1)} years
           </p>
-          <p className={styles.insightItemDesc}>
+          <p className="mt-2 text-sm leading-6 text-slate-600 md:text-base dark:text-slate-300">
             At {formatPercentage(annualReturn)} assumed annual return, your money approximately doubles
             every {doublingYears.toFixed(1)} years. This is a quick mental math
             shortcut: 72 divided by the return rate equals the approximate doubling time.
           </p>
         </article>
 
-        {/* Inflation Impact */}
-        <article className={styles.insightItem}>
-          <h3 className={styles.insightItemTitle}>Inflation-Adjusted Value</h3>
-          <p className={styles.insightItemValue}>
+        <article className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/80">
+          <h3 className="text-sm font-semibold text-slate-700 md:text-base dark:text-slate-300">
+            Inflation-Adjusted Value
+          </h3>
+          <p className="mt-2 text-xl font-extrabold text-brandBlue md:text-2xl">
             {formatInrNumber(result.inflationAdjusted)}
           </p>
-          <p className={styles.insightItemDesc}>
+          <p className="mt-2 text-sm leading-6 text-slate-600 md:text-base dark:text-slate-300">
             Assuming {formatPercentage(inflationRate)} annual inflation (user-set), your{" "}
             {formatCompactInrNumber(result.futureValue)} would have the
             illustrative purchasing power of{" "}

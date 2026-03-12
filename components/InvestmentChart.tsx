@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import {
   Area,
   Bar,
@@ -12,13 +12,29 @@ import {
 } from "recharts";
 import { formatInrNumber } from "../lib/formatters";
 import type { YearlyBreakdownPoint } from "../lib/sipMath";
-import styles from "../styles/calculator.module.css";
 
 interface InvestmentChartProps {
   breakdown: YearlyBreakdownPoint[];
 }
 
 function InvestmentChart({ breakdown }: InvestmentChartProps) {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    };
+
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const chartData = useMemo(
     () =>
       breakdown.map((row) => ({
@@ -30,42 +46,44 @@ function InvestmentChart({ breakdown }: InvestmentChartProps) {
     [breakdown]
   );
 
+  const axisTickColor = isDark ? "#94a3b8" : "#64748b";
+  const gridColor = isDark ? "#334155" : "#d7e1ee";
+  const tooltipBg = isDark ? "#0f172a" : "#ffffff";
+  const tooltipBorder = isDark ? "#334155" : "#dbe4f1";
+  const legendColor = isDark ? "#cbd5e1" : "#475569";
+
   return (
-    <section className={styles.card} aria-labelledby="chart-title">
-      <div className={styles.cardHeader}>
-        <h2 id="chart-title" className={styles.cardTitle}>
+    <section className="app-card h-full min-w-0" aria-labelledby="chart-title">
+      <div className="mb-4">
+        <h2 id="chart-title" className="card-title">
           Investment Growth
         </h2>
       </div>
       {chartData.length === 0 ? (
-        <p className={styles.emptyState}>
+        <p className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-300">
           No chart data yet. Increase investment amount or duration.
         </p>
       ) : (
-        <div className={styles.chartWrap}>
+        <div className="h-72 w-full md:h-80 lg:h-[22rem]">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
               data={chartData}
-              margin={{ top: 12, right: 12, left: 4, bottom: 4 }}
+              margin={{ top: 12, right: 12, left: 2, bottom: 2 }}
             >
               <defs>
                 <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#224c87" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="#224c87" stopOpacity={0.02} />
+                  <stop offset="5%" stopColor="#224c87" stopOpacity={0.16} />
+                  <stop offset="95%" stopColor="#224c87" stopOpacity={0.03} />
                 </linearGradient>
               </defs>
-              <CartesianGrid
-                strokeDasharray="4 4"
-                stroke="var(--table-border)"
-                vertical={false}
-              />
+              <CartesianGrid strokeDasharray="4 4" stroke={gridColor} vertical={false} />
               <XAxis
                 dataKey="year"
-                tick={{ fill: "var(--text-muted)", fontSize: 12 }}
+                tick={{ fill: axisTickColor, fontSize: 12 }}
                 axisLine={false}
               />
               <YAxis
-                tick={{ fill: "var(--text-muted)", fontSize: 12 }}
+                tick={{ fill: axisTickColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(value) =>
@@ -78,17 +96,16 @@ function InvestmentChart({ breakdown }: InvestmentChartProps) {
               <Tooltip
                 contentStyle={{
                   borderRadius: "12px",
-                  border: "1px solid var(--card-border)",
-                  backgroundColor: "var(--surface)",
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                  color: "var(--text-body)",
+                  border: `1px solid ${tooltipBorder}`,
+                  backgroundColor: tooltipBg,
+                  boxShadow: "0 8px 24px rgba(15, 23, 42, 0.20)",
                 }}
                 formatter={(value: number, name: string) => [
                   formatInrNumber(value),
                   name,
                 ]}
               />
-              <Legend wrapperStyle={{ fontSize: "13px" }} />
+              <Legend wrapperStyle={{ fontSize: "13px", color: legendColor }} />
 
               <Area
                 type="monotone"
@@ -98,8 +115,6 @@ function InvestmentChart({ breakdown }: InvestmentChartProps) {
                 strokeWidth={3}
                 fill="url(#areaGradient)"
                 dot={false}
-                animationDuration={800}
-                isAnimationActive
               />
               <Area
                 type="monotone"
@@ -109,18 +124,14 @@ function InvestmentChart({ breakdown }: InvestmentChartProps) {
                 strokeWidth={2}
                 fill="transparent"
                 dot={false}
-                animationDuration={900}
-                isAnimationActive
               />
               <Bar
                 dataKey="returns"
                 name="Returns Generated"
-                fill="var(--accent-red)"
+                fill="#da3832"
                 radius={[6, 6, 0, 0]}
                 maxBarSize={28}
-                animationDuration={600}
-                isAnimationActive
-                fillOpacity={0.8}
+                fillOpacity={0.86}
               />
             </ComposedChart>
           </ResponsiveContainer>

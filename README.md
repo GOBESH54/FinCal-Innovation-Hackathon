@@ -1,87 +1,96 @@
-# SIP Calculator — FinSight Planner
+# SIP Calculator - FinCal Innovation Hackathon
 
-An education-first SIP (Systematic Investment Plan) calculator built for the **FinCal Innovation Hackathon** (Technex'26, IIT-BHU). This tool helps users understand compounding, inflation, and long-term investment planning through interactive visualizations — without promoting any specific mutual fund scheme.
+Education-first SIP calculator built with Next.js, focused on investor awareness and rule-compliant financial education.
 
-## ✨ Features
+## Highlights
 
-| Feature | Description |
-|---------|-------------|
-| **SIP Calculator** | Monthly compounding with animated results and donut chart |
-| **Investment Growth Chart** | Area + bar chart with milestone reference lines |
-| **Donut Breakdown** | SVG donut showing invested vs. returns ratio |
-| **Educational Insights** | Power of Compounding, Wealth Multiplier, Rule of 72, Inflation Impact |
-| **Scenario Comparison** | "What If?" — compare current vs +₹1000/mo vs +5 years |
-| **Milestone Tracker** | When do you reach ₹1L, ₹5L, ₹10L, ₹25L, ₹50L, ₹1Cr? |
-| **Year-by-Year Timeline** | Table with milestone highlighting |
-| **Dark / Light Mode** | Toggle with localStorage persistence |
-| **Accessibility** | WCAG 2.1 AA — keyboard, screen reader, focus management |
-| **Responsive** | Desktop, tablet, and mobile layouts |
+- Mobile-first responsive UI (phone, tablet, laptop, desktop)
+- SIP formula as specified in hackathon rules:
+  - `r = annual rate / 12`
+  - `n = years * 12`
+  - `FV = P * [((1 + r)^n - 1) / r] * (1 + r)`
+- User-editable assumptions:
+  - Monthly investment
+  - Expected annual return
+  - Investment duration
+  - Inflation
+  - Tax impact (LTCG, illustrative)
+  - Scenario deltas (extra monthly amount, extra years)
+- Educational visual blocks:
+  - Investment growth chart
+  - Invested vs returns donut
+  - Scenario comparison
+  - Milestone tracker
+  - Year-by-year timeline
+- Accessibility-focused controls:
+  - Labels and ARIA attributes on inputs
+  - Keyboard-friendly controls and focus styles
+  - Error-state messaging
+  - Screen-reader updates for key output changes
+- Dark mode with persistent user preference
 
-## 🛡️ Hackathon Compliance
+## Mandatory Compliance Alignment
 
-- **Category:** SIP Calculator (one team, one category)
-- **No commercial promotion** — educational tool only
-- **HDFC Mandatory Disclaimer** included
-- **Original code** — all logic and UI are original
+- Category: SIP Calculator only
+- No scheme ranking or product promotion
+- Mandatory HDFC disclaimer included verbatim
+- Assumptions are disclosed and editable
+- Outputs are illustrative, not guaranteed
+- Brand colors used:
+  - Blue `#224c87`
+  - Red `#da3832`
+  - Grey `#919090`
+- Font stack:
+  - Montserrat, Arial, Verdana
 
-## 🛠️ Tech Stack
+## Stack Compatibility
 
-- Next.js 15.5.9
-- React 19.2.4
-- TypeScript
-- Recharts (charting library)
-- CSS Modules with glassmorphism design
-- Google Fonts (Montserrat) + Arial / Verdana fallbacks
+- Next.js `15.5.9`
+- Node.js `22.11.0+`
+- NPM `10.9.0+`
+- Frontend: Next.js (pages router)
+- Backend compatibility: Node-compatible logic
+- Drupal/PHP/MySQL: not required unless CMS integration is added
 
-## 🚀 Setup
+## Local Setup
 
 ```bash
-# Install dependencies
 npm install
-
-# Start dev server
 npm run dev
+```
 
-# Build for production
+Production checks:
+
+```bash
+npm run typecheck
 npm run build
-
-# Start production server
-npm run start
+npm run test
 ```
 
-## 📐 Architecture
+## Scripts
 
-```
-├── components/
-│   ├── SipCalculator.tsx      # Main calculator with inputs + donut
-│   ├── DonutChart.tsx         # SVG donut (invested vs returns)
-│   ├── InvestmentChart.tsx    # Area + bar chart with milestones
-│   ├── InvestmentTimeline.tsx # Year-by-year table
-│   ├── EducationalInsights.tsx # Compounding, multiplier, Rule of 72
-│   ├── ScenarioComparison.tsx # What-if scenario cards
-│   ├── MilestoneTracker.tsx   # When do I reach ₹X?
-│   ├── NumericSliderInput.tsx # Accessible slider + text input
-│   └── ThemeToggle.tsx        # Dark/light mode switch
-├── lib/
-│   ├── sipMath.ts             # SIP formulas, milestones, scenarios
-│   └── formatters.ts          # INR formatting utilities
-├── pages/
-│   ├── index.tsx              # Main page layout
-│   └── _app.tsx               # App wrapper
-└── styles/
-    ├── globals.css            # Design tokens, dark mode, animations
-    └── calculator.module.css  # Component styles
-```
+- `npm run dev` - start development server
+- `npm run build` - production build
+- `npm run start` - run production server
+- `npm run typecheck` - TypeScript checks
+- `npm run test` - SIP math sanity tests
+- `npm run check` - typecheck + build + tests
 
-## ♿ Accessibility (WCAG 2.1 AA)
+## Project Structure
 
-- Keyboard-operable sliders and buttons
-- `aria-live` updates for dynamic results
-- Screen-reader labels on all controls
-- High-contrast text (verified 4.5:1+ ratios)
-- Visible focus indicators
-- Semantic HTML structure
+- `pages/index.tsx` - main app layout and compliance sections
+- `components/SipCalculator.tsx` - core calculator controls and summary cards
+- `components/InvestmentChart.tsx` - growth chart
+- `components/DonutChart.tsx` - invested vs returns chart
+- `components/InvestmentTimeline.tsx` - annual table
+- `components/EducationalInsights.tsx` - educational explainers
+- `components/ScenarioComparison.tsx` - what-if comparison
+- `components/MilestoneTracker.tsx` - target milestones
+- `components/NumericSliderInput.tsx` - accessible numeric input + slider
+- `components/ThemeToggle.tsx` - dark/light mode toggle
+- `lib/sipMath.ts` - financial formulas and scenario logic
+- `lib/formatters.ts` - INR/percentage formatting helpers
 
-## 📜 Disclaimer
+## Mandatory Disclaimer
 
 This tool has been designed for information purposes only. Actual results may vary depending on various factors involved in capital market. Investor should not consider above as a recommendation for any schemes of HDFC Mutual Fund. Past performance may or may not be sustained in future and is not a guarantee of any future returns.

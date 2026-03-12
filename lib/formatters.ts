@@ -2,27 +2,29 @@ const IN_NUMBER_FORMATTER = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0,
 });
 
+const INR = "\u20B9";
+
 export function formatInrNumber(value: number): string {
   const rounded = Number.isFinite(value) ? Math.round(value) : 0;
-  return `₹${IN_NUMBER_FORMATTER.format(rounded)}`;
+  return `${INR}${IN_NUMBER_FORMATTER.format(rounded)}`;
 }
 
 export function formatCompactInrNumber(value: number): string {
   const safeValue = Number.isFinite(value) ? value : 0;
   const absValue = Math.abs(safeValue);
   const sign = safeValue < 0 ? "-" : "";
-  const compact = (num: number) => num.toFixed(1).replace(/\.0$/, "");
+  const compact = (num: number) => num.toFixed(1).replace(/\.?0+$/, "");
 
   if (absValue >= 10000000) {
-    return `${sign}₹${compact(absValue / 10000000)} Cr`;
+    return `${sign}${INR}${compact(absValue / 10000000)} Cr`;
   }
 
   if (absValue >= 100000) {
-    return `${sign}₹${compact(absValue / 100000)} L`;
+    return `${sign}${INR}${compact(absValue / 100000)} L`;
   }
 
   if (absValue >= 1000) {
-    return `${sign}₹${compact(absValue / 1000)}K`;
+    return `${sign}${INR}${compact(absValue / 1000)}K`;
   }
 
   return formatInrNumber(safeValue);
@@ -35,7 +37,7 @@ export function formatPercentage(value: number, decimals = 1): string {
 
 export function formatMultiplier(value: number): string {
   const safe = Number.isFinite(value) ? value : 0;
-  return `${safe.toFixed(1)}×`;
+  return `${safe.toFixed(1)}x`;
 }
 
 export function formatYearsMonths(totalMonths: number): string {

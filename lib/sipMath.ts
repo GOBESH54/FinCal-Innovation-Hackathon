@@ -6,6 +6,8 @@ export interface SipResult {
   totalGains: number;
   wealthMultiplier: number;
   inflationAdjusted: number;
+  postTaxGains: number;
+  postTaxFutureValue: number;
 }
 
 export interface YearlyBreakdownPoint {
@@ -32,7 +34,7 @@ function toMonthCount(years: number): number {
 }
 
 /**
- * Monthly rate: r = Annual rate ÷ 12
+ * Monthly rate: r = annual rate / 12
  * Per hackathon rules (simple division, not effective monthly conversion).
  */
 export function toMonthlyRate(annualReturnPercent: number): number {
@@ -44,7 +46,8 @@ export function calculateSIPFutureValue(
   monthlyInvestment: number,
   annualReturnPercent: number,
   years: number,
-  inflationPercent: number
+  inflationPercent: number,
+  taxRatePercent: number = 0
 ): SipResult {
   const contribution = Math.max(0, sanitizeNumber(monthlyInvestment));
   const months = toMonthCount(years);
@@ -58,6 +61,8 @@ export function calculateSIPFutureValue(
       totalGains: 0,
       wealthMultiplier: 0,
       inflationAdjusted: 0,
+      postTaxGains: 0,
+      postTaxFutureValue: 0,
     };
   }
 
@@ -78,13 +83,20 @@ export function calculateSIPFutureValue(
       ? futureValue / Math.pow(1 + safeInflation / 100, safeYears)
       : futureValue;
 
+  const totalGains = futureValue - totalInvested;
+  const safeTaxRate = sanitizeNumber(taxRatePercent);
+  const taxAmount = totalGains > 0 ? totalGains * (safeTaxRate / 100) : 0;
+  const postTaxGains = totalGains - taxAmount;
+  const postTaxFutureValue = totalInvested + postTaxGains;
+
   return {
     futureValue,
     totalInvested,
-    totalGains: futureValue - totalInvested,
-    wealthMultiplier:
-      totalInvested > 0 ? futureValue / totalInvested : 0,
+    totalGains,
+    wealthMultiplier: totalInvested > 0 ? futureValue / totalInvested : 0,
     inflationAdjusted,
+    postTaxGains,
+    postTaxFutureValue,
   };
 }
 
@@ -124,12 +136,12 @@ export function calculateYearlyBreakdown(
 }
 
 const DEFAULT_MILESTONES = [
-  { amount: 100000, label: "₹1 Lakh" },
-  { amount: 500000, label: "₹5 Lakh" },
-  { amount: 1000000, label: "₹10 Lakh" },
-  { amount: 2500000, label: "₹25 Lakh" },
-  { amount: 5000000, label: "₹50 Lakh" },
-  { amount: 10000000, label: "₹1 Crore" },
+  { amount: 100000, label: "\u20B91 Lakh" },
+  { amount: 500000, label: "\u20B95 Lakh" },
+  { amount: 1000000, label: "\u20B910 Lakh" },
+  { amount: 2500000, label: "\u20B925 Lakh" },
+  { amount: 5000000, label: "\u20B950 Lakh" },
+  { amount: 10000000, label: "\u20B91 Crore" },
 ];
 
 export function calculateMilestones(
@@ -185,6 +197,7 @@ export function calculateScenarios(
   annualReturnPercent: number,
   years: number,
   inflationPercent: number,
+  taxRatePercent: number,
   extraMonthly: number = 1000,
   extraYears: number = 5
 ): {
@@ -195,20 +208,22 @@ export function calculateScenarios(
   moreYearsLabel: string;
 } {
   return {
-    current: calculateSIPFutureValue(monthlyInvestment, annualReturnPercent, years, inflationPercent),
+    current: calculateSIPFutureValue(monthlyInvestment, annualReturnPercent, years, inflationPercent, taxRatePercent),
     moreMonthly: calculateSIPFutureValue(
       monthlyInvestment + extraMonthly,
       annualReturnPercent,
       years,
-      inflationPercent
+      inflationPercent,
+      taxRatePercent
     ),
     moreYears: calculateSIPFutureValue(
       monthlyInvestment,
       annualReturnPercent,
       years + extraYears,
-      inflationPercent
+      inflationPercent,
+      taxRatePercent
     ),
-    moreMonthlyLabel: `+₹${extraMonthly.toLocaleString("en-IN")}/mo`,
+    moreMonthlyLabel: `+\u20B9${extraMonthly.toLocaleString("en-IN")}/mo`,
     moreYearsLabel: `+${extraYears} years`,
   };
 }

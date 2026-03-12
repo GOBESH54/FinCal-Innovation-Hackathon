@@ -72,6 +72,22 @@ const fv3 = sipFV(10000, 8, 1);
 assert(fv3 > 120000, `10K/8%/1yr FV > 1.2L (invested) (got ${Math.round(fv3)})`);
 assert(fv3 < 130000, `10K/8%/1yr FV < 1.3L (got ${Math.round(fv3)})`);
 
+// 8. Tax Impact Assessment
+function sipFV_tax(monthlyInvestment, annualReturnPercent, years, taxRatePercent) {
+  const fv = sipFV(monthlyInvestment, annualReturnPercent, years);
+  const invested = monthlyInvestment * years * 12;
+  const gains = fv - invested;
+  const postTaxGains = gains > 0 ? gains * (1 - taxRatePercent / 100) : 0;
+  return { fv, invested, gains, postTaxGains, postTaxFutureValue: invested + postTaxGains };
+}
+
+const resultTaxes = sipFV_tax(10000, 12, 10, 12.5);
+assert(resultTaxes.postTaxGains < resultTaxes.gains, "Post-tax gains should be less than total gains");
+assert(
+  approxEqual(resultTaxes.gains - resultTaxes.postTaxGains, resultTaxes.gains * 0.125, 0.01),
+  "Tax should be ~12.5% of total gains"
+);
+
 // ── Summary ──
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===\n`);

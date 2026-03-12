@@ -1,6 +1,5 @@
 import { memo, useMemo } from "react";
 import { formatCompactInrNumber } from "../lib/formatters";
-import styles from "../styles/calculator.module.css";
 
 interface DonutChartProps {
   invested: number;
@@ -29,25 +28,22 @@ function DonutChart({ invested, returns }: DonutChartProps) {
   const returnsPercent = total > 0 ? 100 - investedPercent : 0;
 
   return (
-    <div className={styles.donutSection}>
-      <div className={styles.donutWrapper}>
+    <div className="mt-6 flex flex-col items-center gap-4">
+      <div className="relative flex items-center justify-center">
         <svg
-          className={styles.donutSvg}
+          className="h-40 w-40 -rotate-90 sm:h-48 sm:w-48"
           viewBox={`0 0 ${SIZE} ${SIZE}`}
           aria-label={`Investment breakdown: ${investedPercent}% invested, ${returnsPercent}% returns`}
           role="img"
         >
-          {/* Background circle */}
           <circle
-            className={styles.donutCircleBg}
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
             strokeWidth={STROKE}
+            className="fill-none stroke-brandBlue/15"
           />
-          {/* Invested arc */}
           <circle
-            className={styles.donutCircleInvested}
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
@@ -55,10 +51,9 @@ function DonutChart({ invested, returns }: DonutChartProps) {
             strokeDasharray={CIRCUMFERENCE}
             strokeDashoffset={CIRCUMFERENCE - investedAngle}
             strokeLinecap="round"
+            className="fill-none stroke-brandBlue transition-all duration-700"
           />
-          {/* Returns arc */}
           <circle
-            className={styles.donutCircleReturns}
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
@@ -66,36 +61,31 @@ function DonutChart({ invested, returns }: DonutChartProps) {
             strokeDasharray={CIRCUMFERENCE}
             strokeDashoffset={CIRCUMFERENCE - returnsAngle}
             strokeLinecap="round"
+            className="fill-none stroke-brandRed transition-all duration-700"
             style={{
               transform: `rotate(${(investedAngle / CIRCUMFERENCE) * 360}deg)`,
               transformOrigin: "center",
             }}
           />
         </svg>
-        {/* Center text */}
-        <div className={styles.donutCenter}>
-          <span className={styles.donutCenterLabel}>Total Value</span>
-          <span className={styles.donutCenterValue}>
+        <div className="absolute flex flex-col items-center">
+          <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            Total Value
+          </span>
+          <span className="text-xl font-extrabold text-slate-900 dark:text-slate-100">
             {formatCompactInrNumber(total)}
           </span>
         </div>
       </div>
 
-      {/* Legend */}
-      <div className={styles.donutLegend}>
-        <div className={styles.legendItem}>
-          <span className={`${styles.legendDot} ${styles.legendDotInvested}`} />
-          <span>
-            Invested{" "}
-            <span className={styles.legendValue}>{investedPercent}%</span>
-          </span>
+      <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-slate-700 dark:text-slate-300">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-brandBlue" />
+          <span>Invested <strong>{investedPercent}%</strong></span>
         </div>
-        <div className={styles.legendItem}>
-          <span className={`${styles.legendDot} ${styles.legendDotReturns}`} />
-          <span>
-            Returns{" "}
-            <span className={styles.legendValue}>{returnsPercent}%</span>
-          </span>
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-brandRed" />
+          <span>Returns <strong>{returnsPercent}%</strong></span>
         </div>
       </div>
     </div>

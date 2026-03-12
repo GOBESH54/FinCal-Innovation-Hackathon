@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import styles from "../styles/calculator.module.css";
 
 interface NumericSliderInputProps {
   id: string;
@@ -69,7 +68,6 @@ function NumericSliderInput({
     }
   }, [sanitizedSliderValue, step]);
 
-  // Close tooltip on Escape
   useEffect(() => {
     if (!tooltipOpen) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -82,7 +80,6 @@ function NumericSliderInput({
     return () => document.removeEventListener("keydown", handleKey);
   }, [tooltipOpen]);
 
-  // Close tooltip on outside click
   useEffect(() => {
     if (!tooltipOpen) return;
     const handleClick = (e: MouseEvent) => {
@@ -134,9 +131,7 @@ function NumericSliderInput({
     isFocused.current = false;
 
     const parsed = Number(textValue);
-    const normalized = Number.isFinite(parsed)
-      ? clamp(parsed, min, max)
-      : min;
+    const normalized = Number.isFinite(parsed) ? clamp(parsed, min, max) : min;
     const finalValue = min === 0 && textValue === "" ? 0 : normalized;
 
     onChange(finalValue);
@@ -149,18 +144,16 @@ function NumericSliderInput({
   const tooltipId = `${id}-tooltip`;
 
   return (
-    <div className={styles.inputRow}>
-      <div className={styles.labelWithTooltip}>
-        <label className={styles.inputLabel} htmlFor={id}>
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <label className="text-sm font-semibold text-slate-800 md:text-base dark:text-slate-200" htmlFor={id}>
           {label}
         </label>
         {tooltipText ? (
           <button
             ref={tooltipRef}
             type="button"
-            className={`${styles.tooltipTrigger} ${
-              tooltipOpen ? styles.tooltipTriggerActive : ""
-            }`}
+            className="relative inline-flex h-6 w-6 items-center justify-center rounded-full border border-brandBlue/40 bg-brandBlue/10 text-xs font-bold text-brandBlue dark:border-brandBlue/60 dark:bg-brandBlue/20 dark:text-blue-100"
             aria-label={`${label} info`}
             aria-expanded={tooltipOpen}
             aria-controls={tooltipId}
@@ -170,8 +163,8 @@ function NumericSliderInput({
             <span
               id={tooltipId}
               role="tooltip"
-              className={`${styles.tooltipContent} ${
-                tooltipOpen ? styles.tooltipContentVisible : ""
+              className={`absolute bottom-full right-0 z-20 mb-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg bg-slate-900 p-2 text-left text-xs font-medium text-white shadow-lg md:left-1/2 md:right-auto md:-translate-x-1/2 dark:border dark:border-slate-700 dark:bg-slate-800 ${
+                tooltipOpen ? "block" : "hidden"
               }`}
             >
               {tooltipText}
@@ -179,16 +172,17 @@ function NumericSliderInput({
           </button>
         ) : null}
       </div>
-      <div className={styles.inputInline}>
+
+      <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-[minmax(170px,220px)_1fr]">
         <div
-          className={`${styles.numericWrapper} ${
-            hasError ? styles.numericWrapperError : ""
+          className={`flex min-h-12 items-center rounded-xl border bg-white px-3 dark:bg-slate-900 ${
+            hasError ? "border-brandRed" : "border-slate-300 dark:border-slate-700"
           }`}
         >
-          {prefix && <span className={styles.affix}>{prefix}</span>}
+          {prefix && <span className="mr-1 text-sm font-semibold text-slate-500 dark:text-slate-400">{prefix}</span>}
           <input
             id={id}
-            className={styles.numberInput}
+            className="w-full bg-transparent py-2 text-lg font-bold text-slate-900 outline-none dark:text-slate-100"
             type="text"
             inputMode={step < 1 ? "decimal" : "numeric"}
             aria-label={label}
@@ -203,10 +197,11 @@ function NumericSliderInput({
             onBlur={handleBlur}
             onChange={(event) => handleTextChange(event.target.value)}
           />
-          {suffix && <span className={styles.affix}>{suffix}</span>}
+          {suffix && <span className="ml-1 text-sm font-semibold text-slate-500 dark:text-slate-400">{suffix}</span>}
         </div>
+
         <input
-          className={styles.sliderInput}
+          className="h-3 w-full cursor-pointer accent-brandBlue"
           type="range"
           min={min}
           max={max}
@@ -223,17 +218,14 @@ function NumericSliderInput({
           aria-valuetext={sliderValueText}
           aria-describedby={`${id}-sr-value`}
         />
-        <span id={`${id}-sr-value`} className={styles.srOnly}>
+
+        <span id={`${id}-sr-value`} className="sr-only">
           Current value: {sliderValueText}
         </span>
       </div>
+
       {hasError && (
-        <p
-          id={errorId}
-          className={styles.inputError}
-          role="alert"
-          aria-live="assertive"
-        >
+        <p id={errorId} className="text-xs font-medium text-brandRed dark:text-red-400" role="alert" aria-live="assertive">
           {errorMsg}
         </p>
       )}
