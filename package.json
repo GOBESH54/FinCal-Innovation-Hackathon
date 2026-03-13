@@ -2,9 +2,10 @@
   "name": "sip-calculator-premium",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "npm@10.9.0",
   "engines": {
-    "node": ">=22.11.0",
-    "npm": ">=10.9.0"
+    "node": "22.11.0",
+    "npm": "10.9.0"
   },
   "scripts": {
     "dev": "next dev",
