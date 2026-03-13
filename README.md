@@ -1,95 +1,253 @@
-# SIP Calculator - FinCal Innovation Hackathon
+# FinCal Innovation Hackathon Submission
 
-Education-first SIP calculator built with Next.js, focused on investor awareness and rule-compliant financial education.
+## Project
 
-## Highlights
+**Title:** SIP Learning Planner  
+**Category:** SIP Calculator  
+**Theme:** Investor education, transparent assumptions, and responsible financial UX
 
-- Mobile-first responsive UI (phone, tablet, laptop, desktop)
-- SIP formula as specified in hackathon rules:
-  - `r = annual rate / 12`
-  - `n = years * 12`
-  - `FV = P * [((1 + r)^n - 1) / r] * (1 + r)`
-- User-editable assumptions:
-  - Monthly investment
-  - Expected annual return
-  - Investment duration
-  - Inflation
-  - Tax impact (LTCG, illustrative)
-  - Scenario deltas (extra monthly amount, extra years)
-- Educational visual blocks:
-  - Investment growth chart
-  - Invested vs returns donut
-  - Scenario comparison
-  - Milestone tracker
-  - Year-by-year timeline
-- Accessibility-focused controls:
-  - Labels and ARIA attributes on inputs
-  - Keyboard-friendly controls and focus styles
-  - Error-state messaging
-  - Screen-reader updates for key output changes
-- Dark mode with persistent user preference
+This submission is an education-first SIP calculator built in Next.js for the FinCal Innovation Hackathon. The project is intentionally scoped to a single permitted category and is designed to explain compounding clearly without promoting any specific fund, scheme, or guaranteed outcome.
 
-## Mandatory Compliance Alignment
+The calculator focuses on making SIP concepts easier to understand through plain-language summaries, interactive controls, visual comparisons, milestone tracking, inflation adjustment, and post-tax illustration.
 
-- Category: SIP Calculator only
-- No scheme ranking or product promotion
-- Mandatory HDFC disclaimer included verbatim
-- Assumptions are disclosed and editable
-- Outputs are illustrative, not guaranteed
-- Brand colors used:
-  - Blue `#224c87`
-  - Red `#da3832`
-  - Grey `#919090`
-- Font stack:
-  - Montserrat, Arial, Verdana
+## What Judges Should Notice
 
-## Stack Compatibility
+- The calculator follows the SIP-specific formula framework required in the hackathon brief.
+- All key assumptions are user-editable and openly disclosed in the UI.
+- The experience is built for desktop, tablet, and mobile using a mobile-first responsive layout.
+- The interface is designed for accessibility with labels, ARIA support, keyboard-usable controls, screen-reader announcements, and accessible error states.
+- The submission stays within the investor-awareness positioning: no product selling, no scheme ranking, no performance promises.
+
+## Core Feature Set
+
+### 1. SIP Calculator
+
+The main calculator lets users adjust:
+
+- Monthly investment amount
+- Expected annual return
+- Investment duration
+- Assumed exit tax (LTCG)
+
+It instantly updates:
+
+- Total invested
+- Estimated returns
+- Future value
+- Post-tax gains
+- Post-tax future value
+
+### 2. Investment Growth Chart
+
+A responsive chart visualizes:
+
+- Total portfolio growth
+- Invested amount
+- Returns generated over time
+
+This helps users understand that long-term SIP growth is not linear.
+
+### 3. Donut Breakdown
+
+The donut chart shows the ratio between:
+
+- Principal invested
+- Returns earned
+
+This gives a quick visual understanding of how much of the final corpus comes from contributions versus growth.
+
+### 4. Educational Insights
+
+The project includes a dedicated education section covering:
+
+- Power of compounding
+- Wealth multiplier
+- Rule of 72
+- Inflation-adjusted value
+
+These are included to improve financial understanding, not just output numbers.
+
+### 5. Scenario Comparison
+
+Users can compare their current plan with:
+
+- A higher monthly SIP
+- A longer investment duration
+
+This demonstrates how small changes in amount or time can materially change long-term outcomes.
+
+### 6. Milestone Tracker
+
+The app highlights when the plan reaches major milestones such as:
+
+- Rs 1 Lakh
+- Rs 5 Lakh
+- Rs 10 Lakh
+- Rs 25 Lakh
+- Rs 50 Lakh
+- Rs 1 Crore
+
+This makes progress more concrete and easier to interpret.
+
+### 7. Year-by-Year Timeline
+
+A tabular yearly breakdown shows:
+
+- Year
+- Total invested
+- Portfolio value
+- Profit
+- Milestone hit status
+
+This supports transparency and makes the output auditable.
+
+### 8. Plain-English Summary
+
+The app generates a readable summary of the current SIP assumptions so that users can understand the result without needing to interpret formulas or graphs first.
+
+### 9. Dark Mode
+
+A persistent dark mode is included to improve usability and comfort across viewing conditions while preserving readability and contrast.
+
+## Financial Logic
+
+The SIP calculation follows the framework specified in the uploaded hackathon rules:
+
+- Monthly rate: `r = annual rate / 12`
+- Total months: `n = years * 12`
+- SIP future value: `FV = P * [((1 + r)^n - 1) / r] * (1 + r)`
+
+Additional educational assumptions included in this project:
+
+- Inflation adjustment
+- Illustrative post-tax wealth impact
+- Scenario deltas for additional amount and additional duration
+
+These additions are:
+
+- User-editable
+- Clearly disclosed
+- Educational in purpose
+- Not predictive
+
+## Compliance With Hackathon Rules
+
+### Category Compliance
+
+- The submission is locked to **SIP Calculator** only.
+- No other calculator category is implemented.
+
+### Technology Stack Compliance
 
 - Next.js `15.5.9`
 - Node.js `22.11.0+`
 - NPM `10.9.0+`
-- Frontend: Next.js (pages router)
-- Backend compatibility: Node-compatible logic
-- Drupal/PHP/MySQL: not required unless CMS integration is added
+- Frontend built in Next.js
+- Logic is fully Node-compatible
 
-## Local Setup
+This project does not depend on Drupal integration. If CMS integration is required later, the frontend remains separable and compatible with a Node-based deployment workflow.
+
+### Accessibility
+
+The interface includes:
+
+- Semantic headings and section structure
+- Accessible labels for inputs
+- `aria-label`, `aria-describedby`, and `aria-live` usage where relevant
+- Keyboard-usable sliders and controls
+- Accessible inline error messaging
+- Logical tab flow
+- Responsive layouts without forced horizontal scrolling in the main experience
+
+### Responsiveness
+
+The UI is designed to work across:
+
+- Mobile
+- Tablet
+- Laptop
+- Desktop
+
+Layout behavior:
+
+- Mobile: stacked single-column prioritization
+- Tablet: multi-column sections for charts and insights
+- Desktop: expanded grid layout with improved information density
+
+### Brand Guideline Alignment
+
+The project uses the required palette and font direction from the brief:
+
+- Blue: `#224c87`
+- Red: `#da3832`
+- Grey: `#919090`
+- Fonts: Montserrat, Arial, Verdana
+
+The interface avoids exaggerated metaphors, promotional imagery, or guarantee-oriented language.
+
+## Non-Promotional Design Choices
+
+To stay aligned with the investor education and awareness objective:
+
+- No specific HDFC Mutual Fund scheme is recommended
+- No ranking or comparison of schemes is shown
+- No guaranteed language is used in outputs
+- The calculator is presented as illustrative only
+
+## Testing And Verification
+
+The repository includes a lightweight SIP math verification script covering:
+
+- Zero investment case
+- Zero return case
+- Zero duration case
+- Standard SIP output sanity check
+- Validation that monthly rate is `annual / 12`
+- Large and short-duration sanity checks
+- Post-tax result checks
+
+Available commands:
 
 ```bash
 npm install
 npm run dev
-```
-
-Production checks:
-
-```bash
 npm run typecheck
 npm run build
 npm run test
 ```
 
-## Scripts
-
-- `npm run dev` - start development server
-- `npm run build` - production build
-- `npm run start` - run production server
-- `npm run typecheck` - TypeScript checks
-- `npm run test` - SIP math sanity tests
-- `npm run check` - typecheck + build + tests
-
 ## Project Structure
 
-- `pages/index.tsx` - main app layout and compliance sections
-- `components/SipCalculator.tsx` - core calculator controls and summary cards
-- `components/InvestmentChart.tsx` - growth chart
-- `components/DonutChart.tsx` - invested vs returns chart
-- `components/InvestmentTimeline.tsx` - annual table
-- `components/EducationalInsights.tsx` - educational explainers
-- `components/ScenarioComparison.tsx` - what-if comparison
-- `components/MilestoneTracker.tsx` - target milestones
-- `components/NumericSliderInput.tsx` - accessible numeric input + slider
-- `components/ThemeToggle.tsx` - dark/light mode toggle
-- `lib/sipMath.ts` - financial formulas and scenario logic
-- `lib/formatters.ts` - INR/percentage formatting helpers
+```text
+pages/
+  _app.tsx
+  index.tsx
+
+components/
+  SipCalculator.tsx
+  NumericSliderInput.tsx
+  InvestmentChart.tsx
+  DonutChart.tsx
+  EducationalInsights.tsx
+  ScenarioComparison.tsx
+  MilestoneTracker.tsx
+  InvestmentTimeline.tsx
+  ThemeToggle.tsx
+
+lib/
+  sipMath.ts
+  formatters.ts
+
+styles/
+  globals.css
+```
+
+## Why This Submission Is Strong
+
+- It is not just a calculator; it is a teaching interface.
+- It turns SIP math into an understandable, interactive experience.
+- It balances compliance, clarity, responsiveness, accessibility, and technical quality.
+- It adds useful educational enhancements while remaining transparent and rule-aligned.
 
 ## Mandatory Disclaimer
 
